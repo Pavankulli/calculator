@@ -1,0 +1,400 @@
+:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #f4f3ec;
+  --panel-bg: #ffffff;
+  --border: #e5e4e7;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --key-bg: #f4f3ec;
+  --key-bg-hover: #ebe9e2;
+  --digit-bg: #ffffff;
+  --digit-bg-hover: #f4f3ec;
+  --error: #d64545;
+  --shadow: rgba(0, 0, 0, 0.08) 0 10px 15px -3px, rgba(0, 0, 0, 0.04) 0 4px 6px -2px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 16px/145% var(--sans);
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --panel-bg: #1f2028;
+    --border: #2e303a;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --key-bg: #2a2b34;
+    --key-bg-hover: #353641;
+    --digit-bg: #1f2028;
+    --digit-bg-hover: #2a2b34;
+    --error: #f87171;
+    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+}
+
+h2 {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text-h);
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+/*
+ * Mobile-first breakpoints, chosen to match the three device classes this
+ * calculator actually gets used on, rather than an arbitrary grid:
+ *   - base (<768px, ~375px handheld baseline): one column, calculator on
+ *     top, steps/history stacked below it, full-width up to a readable cap.
+ *   - >=768px (tablet, e.g. iPad portrait): side-by-side layout fits.
+ *   - >=1024px (desktop/laptop): same layout, just given more breathing room.
+ *
+ * The actual trigger values below are 16px under those device widths. A
+ * classic (non-overlay) desktop scrollbar shaves ~15-17px off innerWidth, so
+ * a query written as exactly `min-width: 768px` never fires on a page tall
+ * enough to scroll at a 768px-wide window — confirmed while testing this.
+ * iOS/Android overlay scrollbars don't have this problem, but desktop ones do.
+ */
+
+.calculator-app {
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 700px;
+}
+
+@media (min-width: 752px) {
+  .calculator-app {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    max-width: none;
+  }
+}
+
+@media (min-width: 1008px) {
+  .calculator-app {
+    padding: 24px;
+    gap: 24px;
+  }
+}
+
+/* ---- Calculator ---- */
+
+.calculator {
+  width: 100%;
+  max-width: 360px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.display {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.display__expression {
+  font-family: var(--mono);
+  font-size: 28px;
+  color: var(--text-h);
+  line-height: 1.2;
+}
+
+.display__preview {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--accent);
+  min-height: 1.2em;
+}
+
+.display__preview--error {
+  color: var(--error);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toolbar__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar__button {
+  flex: 1;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-h);
+  background: var(--key-bg);
+}
+
+.toolbar__button:hover {
+  background: var(--key-bg-hover);
+}
+
+.toolbar__button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.toolbar__file-input {
+  display: none;
+}
+
+.toolbar__hint {
+  font-size: 11px;
+  color: var(--text);
+  margin: 0;
+}
+
+.toolbar__hint--error {
+  color: var(--error);
+}
+
+.keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keypad__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.key {
+  font-family: var(--mono);
+  font-size: 18px;
+  min-height: 44px; /* WCAG 2.5.5 minimum touch target, matters most at the 375px mobile breakpoint */
+  padding: 14px 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-h);
+  background: var(--key-bg);
+  transition: background-color 0.1s ease;
+}
+
+.key:hover {
+  background: var(--key-bg-hover);
+}
+
+.key:active {
+  transform: translateY(1px);
+}
+
+.key--digit {
+  background: var(--digit-bg);
+}
+
+.key--digit:hover {
+  background: var(--digit-bg-hover);
+}
+
+.key--op {
+  color: var(--accent);
+}
+
+.key--clear {
+  color: var(--error);
+}
+
+.key--equals {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.key--equals:hover {
+  opacity: 0.9;
+}
+
+/* ---- Side panels ---- */
+
+.side-panels {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 752px) {
+  .side-panels {
+    width: 300px;
+    gap: 20px;
+  }
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel__hint {
+  font-size: 13px;
+  color: var(--text);
+  margin: 0;
+}
+
+.panel__hint--error {
+  color: var(--error);
+}
+
+.steps-panel {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.steps-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.steps-panel__step {
+  font-family: var(--mono);
+  font-size: 13px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.steps-panel__expr {
+  color: var(--text);
+}
+
+.steps-panel__arrow {
+  color: var(--text);
+  opacity: 0.5;
+}
+
+.steps-panel__result {
+  color: var(--accent);
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.history-panel {
+  max-height: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-panel__clear {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.history-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-panel__entry {
+  width: 100%;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--bg);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--text-h);
+}
+
+.history-panel__entry:hover {
+  border-color: var(--border);
+}
+
+.history-panel__expr {
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+.history-panel__result {
+  font-weight: 600;
+}
+
