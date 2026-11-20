@@ -1,3 +1,4 @@
+// Client-side OCR service: uses Tesseract.js (WASM) with strict character whitelisting to extract math from images.
 import { createWorker } from 'tesseract.js'
 
 // Whitelist of characters accepted from OCR.

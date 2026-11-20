@@ -1,3 +1,4 @@
+// Defines Abstract Syntax Tree (AST) node types and operator definitions for mathematical expressions.
 export type BinaryOperator = '+' | '-' | '*' | '/' | '%' | '^'
 
 export interface NumberNode {

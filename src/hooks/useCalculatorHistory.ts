@@ -1,3 +1,4 @@
+// Custom hook: manages calculation history persistence in browser localStorage (capped at 50 entries).
 import { useCallback, useEffect, useState } from 'react'
 
 export interface HistoryEntry {

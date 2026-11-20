@@ -1,3 +1,4 @@
+// Unit tests for the tokenizer: verifies number parsing, operator identification, and lexical edge cases.
 import { describe, expect, it } from 'vitest'
 import { tokenize } from './tokenizer'
 import { CalculatorError } from './errors'

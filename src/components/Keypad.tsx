@@ -1,3 +1,4 @@
+// Interactive keypad grid: renders accessible buttons for digits, arithmetic operators, parentheses, and actions.
 export interface KeypadHandlers {
   onDigit: (digit: string) => void
   onOperator: (operator: '+' | '-' | '*' | '/') => void

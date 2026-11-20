@@ -1,3 +1,4 @@
+// Action toolbar component: provides shareable link copying and camera/photo OCR upload triggers.
 import { useRef } from 'react'
 
 export type ScanStatus = 'idle' | 'scanning' | 'error'

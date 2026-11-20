@@ -1,3 +1,4 @@
+// Main orchestrator component: manages expression state, real-time live preview evaluation, and child components.
 import { useCallback, useMemo, useState } from 'react'
 import { parse } from '../engine/parser'
 import { evaluate, type Step } from '../engine/evaluator'

@@ -1,3 +1,4 @@
+// Recursive-descent parser: enforces BODMAS precedence and builds an AST from token streams.
 import { tokenize, type Token, type TokenType } from './tokenizer'
 import { CalculatorError } from './errors'
 import type { ASTNode, BinaryOperator } from './ast'

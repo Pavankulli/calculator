@@ -1,3 +1,4 @@
+// Evaluates AST expressions using 30-digit Decimal.js precision and generates step-by-step reduction traces.
 import Decimal from 'decimal.js'
 import type { ASTNode, BinaryOperator } from './ast'
 import { CalculatorError } from './errors'

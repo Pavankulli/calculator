@@ -1,3 +1,4 @@
+// Custom hook: listens for physical keyboard keystrokes and routes them to keypad actions without stale closures.
 import { useEffect, useRef } from 'react'
 
 export interface KeyboardHandlers {

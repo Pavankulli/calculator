@@ -1,3 +1,4 @@
+// Unit tests for the parser: verifies operator precedence, associativity (powers), and grammar syntax errors.
 import { describe, expect, it } from 'vitest'
 import { parse } from './parser'
 import { CalculatorError } from './errors'

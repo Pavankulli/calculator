@@ -1,3 +1,4 @@
+// Unit tests for the evaluator: verifies high-precision math, division by zero, and step reduction trace order.
 import { describe, expect, it } from 'vitest'
 import { parse } from './parser'
 import { evaluate } from './evaluator'

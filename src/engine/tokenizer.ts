@@ -1,3 +1,4 @@
+// Lexical analyzer: converts a raw mathematical expression string into typed tokens with position tracking.
 import { CalculatorError } from './errors'
 
 export type TokenType =

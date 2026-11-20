@@ -1,3 +1,4 @@
+// Custom position-aware error class for reporting exact syntax and mathematical domain errors.
 export class CalculatorError extends Error {
   position?: number;
 

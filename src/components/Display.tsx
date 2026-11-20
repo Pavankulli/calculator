@@ -1,3 +1,4 @@
+// Dual-line screen component: renders the current input expression alongside the live result preview or error.
 interface DisplayProps {
   expression: string
   preview: string | null

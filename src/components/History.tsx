@@ -1,3 +1,4 @@
+// History panel component: displays previous calculations with one-click restoration and clear functionality.
 import type { HistoryEntry } from '../hooks/useCalculatorHistory'
 
 interface HistoryProps {

@@ -1,3 +1,4 @@
+// Custom hook: encodes expressions into shareable URL parameters (?e=...) and copies links to clipboard.
 import { useCallback, useState } from 'react'
 
 const PARAM = 'e'
